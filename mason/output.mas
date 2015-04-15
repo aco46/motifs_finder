@@ -1,0 +1,29 @@
+<%args>
+$parameters => ""
+$res => ""
+$outfile => ""
+</%args>
+
+<!-- <p>
+ Parameters for motifs finder analysis are <% # $parameters %> 
+ </p> -->
+
+
+<style>
+
+p.f1 {
+	font: 15px courier, sans-serif;
+} 
+
+</style>
+
+<p class="f1">Motif Finder Output:<br/><%  $res %>
+</p>
+
+<!-- <p>
+ <center>
+ <p>
+ <a href= <% $outfile%> >Motif Finder Output File</a> is a link to the motif finder output.
+ </p>
+ </center>
+</p>  -->

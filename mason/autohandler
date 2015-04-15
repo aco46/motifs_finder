@@ -1,0 +1,3 @@
+<& /motifs_finder_web/header.mas &>
+% $m->call_next;
+<& /motifs_finder_web/footer.mas &>

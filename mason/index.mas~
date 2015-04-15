@@ -1,0 +1,27 @@
+<center>
+
+ <form action="/test">
+ 
+   Sequence:<br>
+ <textarea name="sequence" rows="10" cols="100">
+</textarea>
+  
+   <br><br>
+   widths of motifs:<br>
+   <input type="number" name="widths_of_motifs">
+   <br><br>
+   Numbers of sites:<br>
+   <input type="number" name="numbers_of_sites">
+   <br><br>
+    Select input file: <input type="file" name="txt" multiple> <br>
+   <br><br>
+   <input type="submit" value="Run Motifs Finder">
+  
+ </form>
+
+<div id="working" style="text-align: center; display:none;">
+ <img src="/static/images/wheel.gif" height="30"/>
+</div>
+
+
+</center>
