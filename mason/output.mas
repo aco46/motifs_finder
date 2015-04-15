@@ -17,8 +17,8 @@ p.f1 {
 
 </style>
 
-<p class="f1">Motif Finder Output:<br/><%  $res %>
-</p>
+<pre class="f1">Motif Finder Output:<br/><%  $res %>
+</pre>
 
 <!-- <p>
  <center>
