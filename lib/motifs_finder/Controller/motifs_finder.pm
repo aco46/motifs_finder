@@ -63,7 +63,7 @@ open (my $out_fh, ">", $filename."_input.txt") || die ("\nERROR: the file ".$fil
 
  # my $err = system("/home/production/programs/motif_sampler/Gibbs.x86_64 -h > /home/production/Desktop/ouput.txt");
 
-  my $err = system("/home/production/programs/motif_sampler/Gibbs.linux ".$filename."_input.txt $widths_of_motifs $numbers_of_sites -o ".$filename."_output -n");
+  my $err = system("/home/production/programs/motif_sampler/Gibbs.linux ".$filename."_input.txt $widths_of_motifs $numbers_of_sites -W 0.8 -w 0.1 -p 50 -j 5 -i 500 -S 20 -C 0.5 -y -nopt -o ".$filename."_output -n");
 
    print STDOUT "print $err\n";
 
