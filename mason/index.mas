@@ -8,10 +8,10 @@
   
    <br><br>
    widths of motifs:<br>
-   <input type="number" name="widths_of_motifs">
+   <input type="text" name="widths_of_motifs">
    <br><br>
-   Numbers of sites:<br>
-   <input type="number" name="numbers_of_sites">
+   Number of sites expected<br>in each motif:<br>
+   <input type="text" name="numbers_of_sites">
    <br><br>
     Select input file: <input type="file" name="txt" multiple> <br>
    <br><br>

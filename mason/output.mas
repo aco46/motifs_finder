@@ -2,28 +2,41 @@
 $parameters => ""
 $res => ""
 $outfile => ""
+$weblogo_output => ""
+@logo => ""
 </%args>
 
-<!-- <p>
- Parameters for motifs finder analysis are <% # $parameters %> 
- </p> -->
+<center>
+	<%perl> 
+		my $count=0;
+		foreach my $l (@logo) {
+			$count ++,
+			print "Motif logo $count: <br/>";
+			print "<img src= \"/static/tempfile_motif/$l\" ><br/>";
+			
+		}
+	</%perl>
+</center>
+
+	<style>
+
+		p.f1 {
+		font: 15px courier, sans-serif;
+		} 
+
+	</style>
+
+		<pre class="f1">Motif Finder Output:<br/><%  $res %>
+		</pre>
 
 
-<style>
+ 	<center>
+ 		<p>
+		 	<a href= <% $outfile%> >Motif Finder Output File</a> is a link to the motif finder output.
+		</p>
+ 	</center>
 
-p.f1 {
-	font: 15px courier, sans-serif;
-} 
 
-</style>
 
-<pre class="f1">Motif Finder Output:<br/><%  $res %>
-</pre>
 
-<!-- <p>
- <center>
- <p>
- <a href= <% $outfile%> >Motif Finder Output File</a> is a link to the motif finder output.
- </p>
- </center>
-</p>  -->
+ 
