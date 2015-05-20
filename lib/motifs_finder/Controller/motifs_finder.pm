@@ -83,7 +83,8 @@ my $logo_file;
 my $wl_out_fh;
 my @motif_element;
 my @logo_image;
-
+my @logofile_id;
+my $lf_id;
 	
 	while (my $line = <$output_fh>) {
 		chomp $line;
@@ -105,6 +106,8 @@ my @logo_image;
 			     $logo = 1;	
 			     open ($wl_out_fh, ">", $logo_file) || die ("\nERROR: the file $logo_file could not be found\n");
 			     push @motif_element, $logo_file;
+			     push @logofile_id, $lf_id;
+			     print "logo file ID: @logofile_id\n";
 			     
 			}
 	
@@ -118,7 +121,7 @@ my @logo_image;
 	if ($line =~ m/^\s+MOTIF\s+([a-z])/){
 		$motif = 1;	
 		$logo_file = $filename."_".$1."_wl_input.fasta";
-		
+		$lf_id = $1;
 	}
 	
 	elsif ($line =~ m/^Log\s+Fragmentation\s+portion\s+/ ) {
@@ -146,7 +149,8 @@ my $cmd;
 $c->stash->{res} = join("<br/>", @string_result);	
 $c->stash->{outfile} = $filename."_output";
 $c->stash->{parameters} = "$sequence $widths_of_motifs $numbers_of_sites @string_result";
-$c->stash->{logo} = \@logo_image;                                 
+$c->stash->{logo} = \@logo_image;  
+$c->stash->{logoID} = \@logofile_id;                               
 
     	$c->stash->{template} = '/output.mas';
 }

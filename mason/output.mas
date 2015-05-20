@@ -4,17 +4,18 @@ $res => ""
 $outfile => ""
 $weblogo_output => ""
 @logo => ""
+@logoID => ""
 </%args>
 
 <center>
 	<%perl> 
-		my $count=0;
-		foreach my $l (@logo) {
-			$count ++,
-			print "Motif logo $count: <br/>";
-			print "<img src= \"/static/tempfile_motif/$l\" ><br/>";
-			
+		for (my $i = 0; $i < scalar(@logo); $i++){
+				#print "my index = $i <br\>";
+				print "Motif logo $logoID[$i]\n <br/>";
+				print "<img src= \"/static/tempfile_motif/$logo[$i]\" ><br/>";			
+			 	
 		}
+
 	</%perl>
 </center>
 
