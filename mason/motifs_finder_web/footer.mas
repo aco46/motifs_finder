@@ -1,38 +1,31 @@
 
 <center>
-	<table id="pagefooter">
-		<tr>
-			<td width="100">
-				<a href="http://bti.cornell.edu/" style="float:left;">
-				<img id="bti_img" src="/static/images/motifs_finder_footer_bti.png" title="Boyce Thompson Institute"/>
-				</a>
-			</td>
-			
-			<td style="text-align:center;">
-				<a href="http://" target="_new">Cite the motifs finder Tool</a> |
-				<a href="http://" target="_new">Cite SGN</a><br>
-				<span style="color:#777">Send comments and feedback to </span><a href="mailto:sgn-feedback@solgenomics.net">sgn-feedback@solgenomics.net</a><br>
-			</td>
-			<td>
-				&nbsp;
-			</td>
-			<td>
-				<a href="http://www.nsf.gov" target="_blank"><img src="/static/images/nsf.png" height="50"/></a>
-			</td>
-		</tr>
-	</table>
+	<div id="pagefooter">
+
+		<span style="line-height:60px;">
+		<a href="http://solgenomics.net/contact/form"> Send comments and feedback</a>
+	   	</span>
+
+	</div>
+
 </center>
 
 <style>
 
-#bti_img{
-	height:55px;
-	margin-left:5px;
-}
-
-#molp_img{
-	height:55px;
-	margin-right:5px;
-}
-
+#pagefooter {
+		height:65px;
+		line-height: 1.5;
+		border-top: 1px solid #c0c0c0;
+		padding-top: 2px;
+		margin: 0px 0px 0px 0px;
+		/*position:absolute;*/
+		bottom:0;
+		left:0;
+		width:100%;
+		background:#eee;
+	}	
 </style>
+
+   
+
+
