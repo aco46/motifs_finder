@@ -15,28 +15,21 @@ $tfile => ""
 $sum => ""
 </%args>
 
-
 <center>	
-	<!--<pre class="f1">-->
-
-	<!-- <iframe src="<%$motif_tab[0]%>"></iframe> -->
+	
 	<%perl> 
 
 		for (my $i = 0; $i < scalar(@logo); $i++){
 			#print "my index = $i <br\>";
 			print "<div class='well' style=\"width:90%\">";
-			#print "<pre>";
-			#print "<fieldset><br/>";
-			print "<b>Motif logo $logoID[$i], Length $logowidth[$i]</b>\n <br/>";
-			#print "<fieldset>";
+			#print "<b>Motif Sequence logo $logoID[$i], for Length $logowidth[$i]</b>\n <br/>";
+			print "<b>Motif Sequence logo $logoID[$i]</b>\n <br/>";
 			print "<img src= \"/static/tempfile_motif/$logo[$i]\" ><br/><br/><br/>";			
-		 	print "<b>Motif Table</b><br/>$motif_tab[$i]\n <br/><br/>" ;
+		 	print "<b>Motif Table </b><br/>$motif_tab[$i]\n <br/><br/>" ;
 			print "<b>Motif Model (residue frequence x 100)</b><br\>$freq_tab[$i]\n <br\> "; 
 			print "<b>Motif Probabilty Model </b><br\>$prob_tab[$i]\n <br/>" ;
-			print "<b>Background Probabilty Model</b> <br\>$BGPM_tab[$i]\n <br/>" ;
+			print "<b>Background Probabilty Model </b> <br\>$BGPM_tab[$i]\n <br/>" ;
 			print "<b>Motif $logoID[$i] Log MAP Value</b><br\>$sum_indv_tab[$i]\n <br/>" ;	
-			#print "</fieldset><br/>";
-			#print "</pre>";
 			print "</div>";
 		}
 		
@@ -50,12 +43,7 @@ $sum => ""
 </center>
 
 	<style>
-	   <!--	iframe{
-    			border:none;
-    			width:400px;
-    			display:block;
-		} -->
-
+	   
 		p.f1 {
 		font: 15px courier, sans-serif;
 		} 
@@ -95,4 +83,5 @@ $sum => ""
 		</p>
  	</center>
 
+	 
  

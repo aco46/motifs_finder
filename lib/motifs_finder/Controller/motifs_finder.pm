@@ -42,16 +42,40 @@ sub name_var :Path('/test/') :Args(0) {
     my $widths_of_motifs = $c->req->param("widths_of_motifs");
     my $numbers_of_sites = $c->req->param("numbers_of_sites");
     my $seq_file = $c->req->param("sequence_file");
+    my $no_of_seeds = $c->req->param("number_of_seeds");
+    my $fragmentation = $c->req->param("fragmentation");
+    my $rev_complement = $c->req->param("rev_complement");
     my $weblogo_output = $c->config->{tmp_weblogo_path};
 
+	#print "NO OF SEED: $no_of_seeds\n";
+	#print "FRAGMENTATION: $fragmentation\n";
+	#print "REV COMPLEMENT: $rev_complement\n";
 	#print "SEQUENCE FILE ATTACHED: $seq_file\n";
 
            # validate the Nucleic Acid in sequence. To ensure the return of line is not seen as a space.
 	my @seq;
+	my @errors;
 
+	# to generate temporary file name for the analysis 
 	my ($fh, $filename) =tempfile("XXXXX", DIR => '/home/production/cxgn/motifs_finder/root/static/tempfile_motif/');
 
-	if ($sequence =~ /^>/) {
+	#if (not (defined($seq_file)) && ($sequence !~ /^>/))  {
+	if ($sequence !~ /^>/ && $seq_file eq '')  {
+		push ( @errors , "Please, paste sequences or attach sequence file.<br/>Ensure your sequence conform with 'usage help' description.\n");	
+    	}
+
+	#print "TTTTTTT: $errors[0]\n";
+	# To send error file to index.mas
+	#
+	if (scalar (@errors) > 0){
+		my $user_errors = join("<br />", @errors);
+		$c->stash->{error_msg} = join("<br/>", @errors);
+		$c->stash->{template} = '/index.mas';
+		return;
+	}
+	else {
+	# If no error prepare the sequence file for sampling 
+	   if ($sequence =~ /^>/) {
 		$sequence =~ s/[ \,\-\.\#\(\)\%\'\"\[\]\{\}\:\;\=\+\\\/]/_/gi;
 		@seq = split(/\s/,$sequence);
 
@@ -67,64 +91,64 @@ sub name_var :Path('/test/') :Args(0) {
 
          # to run Gibbs motifs sampler
 
-  	my $err = system("/home/production/programs/motif_sampler/Gibbs.linux ".$filename."_input.txt $widths_of_motifs $numbers_of_sites -W 0.8 -w 0.1 -p 50 -j 5 -i 500 -F -Z -S 20 -C 0.5 -y -nopt -o ".$filename."_output -n");
+  	my $err = system("/home/production/programs/motif_sampler/Gibbs.linux ".$filename."_input.txt $widths_of_motifs $numbers_of_sites -W 0.8 -w 0.1 -p 50 -j 5 -i 500 $fragmentation $rev_complement -Z -S $no_of_seeds -C 0.5 -y -nopt -o ".$filename."_output -n");
 
    		print STDOUT "print $err\n";
 	} 
 	elsif ($seq_file) {
 
-			my $err = system("/home/production/programs/motif_sampler/Gibbs.linux $seq_file $widths_of_motifs $numbers_of_sites -W 0.8 -w 0.1 -p 50 -j 5 -i 500 -F -Z -S 20 -C 0.5 -y -nopt -o ".$filename."_output -n");
+			my $err = system("/home/production/programs/motif_sampler/Gibbs.linux $seq_file $widths_of_motifs $numbers_of_sites -W 0.8 -w 0.1 -p 50 -j 5 -i 500 $fragmentation $rev_complement -Z -S $no_of_seeds -C 0.5 -y -nopt -o ".$filename."_output -n");
 			print STDOUT "print $err\n";
 
 	}
-
-	open (my $output_fh, "<", $filename."_output") || die ("\nERROR: the file ".$filename."_output could not be found\n");
+	
+	open (my $output_fh, "<", $filename."_output") || die ("\nERROR: the file ".$filename."_output could not be found\n"); # open sampler output file and write into a FH
 
 
         
-      # Creating motifs fasta file for weblogo use 
+      # Creating motifs fasta file for weblogo use and other files that are made into tables in the output.mas
 
-my $switch = 0;
-my $motif = 0;
-my $switch_logo = 0;
-my $logo = 0;
-my @string_result;
-my $logo_file;
-my $wl_out_fh;
-my @motif_element;
-my @logo_image;
-my @logofile_id;
-my $lf_id;
-my @motif_width;
-my @aa;	
-my @motif_table_file;
-my $motif_tab_fh;
-my $motif_tab;
-my $freq_tab_switch = 0;
-my $freq_tab_fh;
-my $freq_tab = 0;
-my $freq_tab_file;
-my @freq_tab;
-my $prob_tab_switch = 0;
-my $prob_tab_fh;
-my $prob_tab = 0;
-my $prob_tab_file;
-my @prob_tab;
-my $BGPM_tab_switch = 0;
-my $BGPM_tab_fh;
-my $BGPM_tab = 0;
-my $BGPM_tab_file;
-my @BGPM_tab;
-my $sum_indv_tab_switch = 0;
-my $sum_indv_tab_fh;
-my $sum_indv_tab = 0;
-my $sum_indv_tab_file;
-my @sum_indv_tab;
-my $sum = 0;
-my $switch_sum = 0;
-my @sum;
+	my $switch = 0;
+	my $motif = 0;
+	my $switch_logo = 0;
+	my $logo = 0;
+	my @string_result;
+	my $logo_file;
+	my $wl_out_fh;
+	my @motif_element;
+	my @logo_image;
+	my @logofile_id;
+	my $lf_id;
+	my @motif_width;
+	my @aa;	
+	my @motif_table_file;
+	my $motif_tab_fh;
+	my $motif_tab;
+	my $freq_tab_switch = 0;
+	my $freq_tab_fh;
+	my $freq_tab = 0;
+	my $freq_tab_file;
+	my @freq_tab;
+	my $prob_tab_switch = 0;
+	my $prob_tab_fh;
+	my $prob_tab = 0;
+	my $prob_tab_file;
+	my @prob_tab;
+	my $BGPM_tab_switch = 0;
+	my $BGPM_tab_fh;
+	my $BGPM_tab = 0;
+	my $BGPM_tab_file;
+	my @BGPM_tab;
+	my $sum_indv_tab_switch = 0;
+	my $sum_indv_tab_fh;
+	my $sum_indv_tab = 0;
+	my $sum_indv_tab_file;
+	my @sum_indv_tab;
+	my $sum = 0;
+	my $switch_sum = 0;
+	my @sum;
 
-while (my $line = <$output_fh>) {
+    while (my $line = <$output_fh>) {
 	chomp $line;
 	push @string_result, $line;
 	
@@ -338,7 +362,7 @@ while (my $line = <$output_fh>) {
 	my $cmd;
 
 	foreach $filename (@motif_element){	
-		$cmd = "/home/production/programs/weblogo/seqlogo -F PNG -d 0.5 -T 1 -B 2 -h 5 -w 18 -y bits -a -M -n -Y -c -f $filename -o ".$filename."_weblogo";
+		$cmd = "/home/production/programs/weblogo/seqlogo -F PNG -d 0.5 -T 1 -b -e -B 2 -h 5 -w 18 -y bits -a -M -n -Y -c -f $filename -o ".$filename."_weblogo";
 		push (@logo_image, basename($filename."_weblogo.png"));
 		my $error = system($cmd);
 	
@@ -422,7 +446,7 @@ sub get_result_table {
         				
            				chomp $inpbuf;
 					$inpbuf =~ s/,//g;
-					#push( @{@data[$.]},( split /\s+/, $inpbuf));
+					
 					my ($kk,$seq_num,$site_num,$left_loc,$emty1,$motif,$emty2,$right_loc,$prob,$f_motif,$seq_desc) = split(/\s+/,$inpbuf);           
                 			 $html_table .=  "  <tr>\n";
                 			 $html_table .=  "    <td>$seq_num</td>\t";
@@ -443,17 +467,6 @@ sub get_result_table {
         		close $tab_fh;
 			 $html_table .=  "</table>\n";
 			$html_table .= "</div>";
-			#$table .= "<table border=1>";
-			# my $i ( 0 .. $#data ) {
-			#	$table .= "<tr>";
-			#	for (@{@data[$i]}) {
-			#		$table .= "<td>$_</td>\r\n";
-			#	}
-			#	$table .= "</tr>";
-			#}
-			#$table .= "</table>";
-        		
-        		
 }
 
 
@@ -611,6 +624,7 @@ sub get_sum_indv_table {
 
 	close $tab_fh;
 	$html_sum_indv_table;
+}
 	
 }
 

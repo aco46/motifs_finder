@@ -1,3 +1,21 @@
-<& /motifs_finder_web/header.mas &>
-% $m->call_next;
-<& /motifs_finder_web/footer.mas &>
+
+
+	<div id="wrapper">
+		<div id="header">
+			<& /motifs_finder_web/header.mas &>
+		</div>
+	
+		<div id="content">
+			<% $m->call_next %>
+		</div>
+		<br>
+		<br>
+		<div id="footer">
+			<& /motifs_finder_web/footer.mas &>
+		</div>
+		
+	</div>
+
+
+
+	
